@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { BullModule } from '@nestjs/bullmq';
+import { OptimizeModule } from './modules/optimize/optimize.module';
 
 @Module({
   imports: [
@@ -18,6 +20,13 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         },
       },
     ]),
+    BullModule.forRoot({
+      connection: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    OptimizeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
